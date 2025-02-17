@@ -50,7 +50,7 @@ public class Usuario extends Thread {
             
             if (nuevoRider != null) {
                 System.out.println("<--> Usuario " + id +" (" + aplicacion + ") cambió del rider " + riderActual.getId() + " a " + nuevoRider.getId());
-                appMonitor.liberarRider(riderActual, tipoServicio);
+                appMonitor.liberarRider(riderActual);
 
                 riderActual = nuevoRider;
                 tiempoDeEsperaTotal = riderActual.getTiempoLlegada();
@@ -65,7 +65,7 @@ public class Usuario extends Thread {
         }
 
         // Libera el rider
-        appMonitor.liberarRider(riderActual, tipoServicio);
+        appMonitor.liberarRider(riderActual);
         System.out.println("!!!!!----Usuario " + id +" (" + aplicacion + ") completó el viaje.");
     }
 }

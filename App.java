@@ -13,13 +13,26 @@ public class App {
     }
 
     public synchronized Rider solicitarRider (String appUser, String tipo){
+        Rider riderActual = null;
+        boolean primero = true;
+        
         for(int i=0; i<ridersActual; i++){
+            
             if(Riders[i].getTipoServicio().equals(tipo) && Riders[i].getEstado()){
-                Riders[i].setEstado(false); //Ocupo el rider
-                return Riders[i];
+                
+                if(primero){ //establecer el primer rider disponible como el primero que cumpla
+                    riderActual = Riders[i];
+                    riderActual.setEstado(false);
+                    primero = false;
+                }
+                if(compararRiders(Riders[i], riderActual, appUser)){
+                    riderActual.setEstado(true);//Libero el rider viejo
+                    Riders[i].setEstado(false); //Ocupo el rider nuevo
+                    riderActual = Riders[i]; //asigno el rider nuevo
+                }
             }
         }
-        return null;
+        return riderActual;
     }
 
     public boolean compararRiders(Rider nuevo, Rider actual, String appUser){
@@ -33,7 +46,7 @@ public class App {
 
     public synchronized Rider buscarNuevoRider(Rider actual, String appUser, String tipo){
         for(int i=0; i<ridersActual; i++){
-            if(Riders[i].getEstado() && compararRiders(Riders[i], actual, appUser)){
+            if(Riders[i].getTipoServicio().equals(tipo) && Riders[i].getEstado() && compararRiders(Riders[i], actual, appUser)){
                 Riders[i].setEstado(false); //Ocupo el nuevo
                 return Riders[i];
             }
@@ -41,7 +54,7 @@ public class App {
         return null;
     }
 
-    public void liberarRider(Rider rider, String tipo){
+    public void liberarRider(Rider rider){
         for(int i=0; i<ridersActual; i++){
             if(Riders[i].getId() == rider.getId()){
                 Riders[i].setEstado(true); //Libero el rider
