@@ -1,0 +1,4 @@
+100
+bipbip, 10
+ridery, 20
+yummy, 30
