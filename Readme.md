@@ -74,3 +74,19 @@
   bipbip,X  // X riders para bipbip
   ridery,Y  // Y riders para ridery
   yummy,Z   // Z riders para yummy
+
+### Referencias Consultadas
+
+1. Documentación de SWI-Prolog:
+- https://www.swi-prolog.org/pldoc/man?section=strings
+Utilizada para entender el manejo de cadenas en Prolog.
+
+2. Conversión de Caracteres a ASCII:
+- https://www.swi-prolog.org/pldoc/man?predicate=char_code/2
+Utilizada para cifrar y descifrar mensajes.
+
+3. Backtraking
+- https://www.swi-prolog.org/pldoc/doc_for?object=findall/3
+Utilizada para encontrar todas las posibles soluciones de un problema.
+
+---
