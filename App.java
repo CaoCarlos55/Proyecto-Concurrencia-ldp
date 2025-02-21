@@ -12,7 +12,16 @@ public class App {
         ridersActual++;
     }
 
-    public synchronized Rider solicitarRider (String appUser, String tipo){
+    public boolean verificarServicio(String tipo){
+        for(int i = 0 ; i <ridersActual; i++){
+            if(Riders[i].getTipoServicio().equals(tipo)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public synchronized Rider solicitarRider (String appUsuario, String tipo){
         Rider riderActual = null;
         boolean primero = true;
         
@@ -25,7 +34,7 @@ public class App {
                     riderActual.setEstado(false);
                     primero = false;
                 }
-                if(compararRiders(Riders[i], riderActual, appUser)){
+                if(compararRiders(Riders[i], riderActual, appUsuario)){
                     riderActual.setEstado(true);//Libero el rider viejo
                     Riders[i].setEstado(false); //Ocupo el rider nuevo
                     riderActual = Riders[i]; //asigno el rider nuevo
@@ -35,18 +44,18 @@ public class App {
         return riderActual;
     }
 
-    public boolean compararRiders(Rider nuevo, Rider actual, String appUser){
+    public boolean compararRiders(Rider nuevo, Rider actual, String appUsuario){
         if(nuevo.getTiempoLlegada() < actual.getTiempoLlegada()){
             return true;
         }else if(nuevo.getTiempoLlegada() == actual.getTiempoLlegada()){
-            return nuevo.getAplicacion().equals(appUser) && !actual.getAplicacion().equals(appUser);
+            return nuevo.getAplicacion().equals(appUsuario) && !actual.getAplicacion().equals(appUsuario);
         }
         return false;
     }
 
-    public synchronized Rider buscarNuevoRider(Rider actual, String appUser, String tipo){
+    public synchronized Rider buscarNuevoRider(Rider actual, String appUsuario, String tipo){
         for(int i=0; i<ridersActual; i++){
-            if(Riders[i].getTipoServicio().equals(tipo) && Riders[i].getEstado() && compararRiders(Riders[i], actual, appUser)){
+            if(Riders[i].getTipoServicio().equals(tipo) && Riders[i].getEstado() && compararRiders(Riders[i], actual, appUsuario)){
                 Riders[i].setEstado(false); //Ocupo el nuevo
                 return Riders[i];
             }

@@ -1,10 +1,10 @@
 
 public class Usuario extends Thread {
-    App appMonitor;
-    String aplicacion;
-    String tipoServicio;
-    int tiempoViaje;
-    int id;
+    private App appMonitor;
+    private String aplicacion;
+    private String tipoServicio;
+    private int tiempoViaje;
+    private int id;
 
     public Usuario(int i, App a, String s, String tipo, int t){
         this.id = i;
@@ -22,6 +22,16 @@ public class Usuario extends Thread {
     public void run(){
         Rider riderActual = null;
 
+        if (!appMonitor.verificarServicio(tipoServicio)) {
+            if(this.tipoServicio.equals("car")){
+                System.out.println("Usuario:"+ id +" No hay servicios de tipo car, cambiando servicio a motorcycle");
+                this.tipoServicio = "motorcycle";
+            }else{
+                this.tipoServicio = "car";
+                System.out.println("Usuario:"+ id +" No hay servicios de tipo motorcycle, cambiando servicio a car");
+            }
+        }
+
         while(riderActual == null){
             riderActual = appMonitor.solicitarRider(aplicacion, tipoServicio);
             if (riderActual == null) {
@@ -34,7 +44,7 @@ public class Usuario extends Thread {
             }
         }
         
-        System.out.println("**-Usuario "+ id +" (" + aplicacion + ", " + tipoServicio + ") asignado al Rider " + riderActual.getId());
+        System.out.println("**-Usuario "+ id +" (" + aplicacion + ", " + tipoServicio + ") asignado al Rider " + riderActual.getId() +"( "+ riderActual.getAplicacion() +", "+riderActual.getTipoServicio()+")" );
 
         int tiempoDeEsperaTotal = riderActual.getTiempoLlegada();
 
@@ -49,7 +59,7 @@ public class Usuario extends Thread {
             Rider nuevoRider = appMonitor.buscarNuevoRider(riderActual, aplicacion, tipoServicio);
             
             if (nuevoRider != null) {
-                System.out.println("<--> Usuario " + id +" (" + aplicacion + ") cambió del rider " + riderActual.getId() + " a " + nuevoRider.getId());
+                System.out.println("<--> Usuario " + id +" (" + aplicacion +", "+ tipoServicio+ ") cambió del rider " + riderActual.getId() + " a " + nuevoRider.getId()+"( "+ riderActual.getAplicacion() +", "+riderActual.getTipoServicio()+")" );
                 appMonitor.liberarRider(riderActual);
 
                 riderActual = nuevoRider;
@@ -57,7 +67,7 @@ public class Usuario extends Thread {
             }
         }
         // Inicia el viaje
-        System.out.println("-->Usuario " + id +" (" + aplicacion + ") inicia viaje con el rider " + riderActual.getId() + ". Duración: " + tiempoViaje + "s.");
+        System.out.println("-->Usuario " + id +" (" + aplicacion+ ", " + tipoServicio + ") inicia viaje con el rider " + riderActual.getId() + ". Duración: " + tiempoViaje + "s.");
         try {
             sleep(tiempoViaje * 1000);
         } catch (InterruptedException e) {
