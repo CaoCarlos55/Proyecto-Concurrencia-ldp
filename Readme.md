@@ -58,7 +58,7 @@ La sincronización se logró mediante la marca `synchronized` en estos métodos,
 
 1. Al iniciar la ejecución el usuario buscará el mejor rider disponible para él, en terminos de distancia y app solicitada. En una ejecución con más riders que usuarios es probable que no se observen cambios de rider. Se podrá observar cambios de riders en las simulaciones que posean más usuarios que riders, así se producirá el cambio al momento de que se libere alguno mejor. 
 
-1. Si la totalidad de riders poseen el mismo tipo de vehiculo (por ejemplo motocycle) y un usuario solicita el tipo contrario (car), antes de solicitar el vehiculo al monitor se realizará la validación al arreglo de riders y se hará el cambio de solicitud en el usuario.
+1. Si la totalidad de riders poseen el mismo tipo de vehiculo (por ejemplo motocycle) y un usuario solicita el tipo contrario (car), antes de solicitar el vehiculo al monitor se hará el cambio del tipo a solicitar en el usuario.
 
 2. Para mejorar la toma de decisiones los riders poseen un booleano `disponible` que indica si el rider es tomado por un usuario.
 
