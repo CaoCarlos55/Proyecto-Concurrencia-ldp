@@ -42,9 +42,6 @@ La sincronización se logró mediante la marca `synchronized` en estos métodos,
 
   - `solicitarRider()`: Asigna el mejor rider disponible usando exclusión mutua.
   - `buscarNuevoRider()`: Encuentra un rider mejor que el actual durante la espera.
-### Condiciones de Sincronización
-
-
 
 ## Decisiones de Diseño Clave
 
@@ -57,6 +54,16 @@ La sincronización se logró mediante la marca `synchronized` en estos métodos,
 3. **Liberación de Riders**:
    Para garantizar que los riders hagan más de un viaje en toda la ejecución estos deben "liberarse" una vez finaliza el viaje. Para ello al finalizar un viaje o al cambiar de rider, se marca como disponible mediante la flag booleana `disponible` del objeto.
 
+### Consideraciones
+
+1. Al iniciar la ejecución el usuario buscará el mejor rider disponible para él, en terminos de distancia y app solicitada. En una ejecución con más riders que usuarios es probable que no se observen cambios de rider. Se podrá observar cambios de riders en las simulaciones que posean más usuarios que riders, así se producirá el cambio al momento de que se libere alguno mejor. 
+
+1. Si la totalidad de riders poseen el mismo tipo de vehiculo (por ejemplo motocycle) y un usuario solicita el tipo contrario (car), antes de solicitar el vehiculo al monitor se realizará la validación al arreglo de riders y se hará el cambio de solicitud en el usuario.
+
+2. Para mejorar la toma de decisiones los riders poseen un booleano `disponible` que indica si el rider es tomado por un usuario.
+
+3. Luego de instanciado el arreglo de riders no se hacen modificionaciones como añadir o eliminar elementos, solo se modifican los atributos de cada uno según el caso. Esto garantiza que ningún hilo realice cambios catatróficos en el recurso crítico
+
 ## Instrucciones de Uso
 
 ### Requisitos
@@ -67,6 +74,14 @@ La sincronización se logró mediante la marca `synchronized` en estos métodos,
   bipbip,X  // X riders para bipbip
   ridery,Y  // Y riders para ridery
   yummy,Z   // Z riders para yummy
+
+### Modo de Uso
+1. Se compila el archivo mediante el uso de makefile 
+   ```bash
+      makeall
+2. Para ejecutar los casos de prueba llamados pN.txt (donde 0<N<5) de hace uso del siguiente comando, cambiando p1.txt por el archivo que se desee probar:
+   ```bash
+      java Principal "Casos de Prueba\p1.txt"
 
 ### Referencias Consultadas
 
