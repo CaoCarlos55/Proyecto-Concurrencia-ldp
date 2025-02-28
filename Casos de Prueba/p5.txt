@@ -1,0 +1,4 @@
+10
+bipbip, 0
+ridery, 1
+yummy, 0

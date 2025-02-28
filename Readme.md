@@ -58,11 +58,13 @@ La sincronización se logró mediante la marca `synchronized` en estos métodos,
 
 1. Al iniciar la ejecución el usuario buscará el mejor rider disponible para él, en terminos de distancia y app solicitada. En una ejecución con más riders que usuarios es probable que no se observen cambios de rider. Se podrá observar cambios de riders en las simulaciones que posean más usuarios que riders, así se producirá el cambio al momento de que se libere alguno mejor. 
 
-1. Si la totalidad de riders poseen el mismo tipo de vehiculo (por ejemplo motocycle) y un usuario solicita el tipo contrario (car), antes de solicitar el vehiculo al monitor se hará el cambio del tipo a solicitar en el usuario.
+2. Si la totalidad de riders poseen el mismo tipo de vehiculo (por ejemplo motocycle) y un usuario solicita el tipo contrario (car), antes de solicitar el vehiculo al monitor se hará el cambio del tipo a solicitar en el usuario.
 
-2. Para mejorar la toma de decisiones los riders poseen un booleano `disponible` que indica si el rider es tomado por un usuario.
+3. Para mejorar la toma de decisiones los riders poseen un booleano `disponible` que indica si el rider es tomado por un usuario.
 
-3. Luego de instanciado el arreglo de riders no se hacen modificionaciones como añadir o eliminar elementos, solo se modifican los atributos de cada uno según el caso. Esto garantiza que ningún hilo realice cambios catatróficos en el recurso crítico
+4. Luego de instanciado el arreglo de riders no se hacen modificionaciones como añadir o eliminar elementos, solo se modifican los atributos de cada uno según el caso. Esto garantiza que ningún hilo realice cambios catatróficos en el recurso crítico
+
+5. Se asume que las entradas siempre seran validas, es decir, no existiran casos donde no existan usuarios o riders.
 
 ## Instrucciones de Uso
 
@@ -78,10 +80,13 @@ La sincronización se logró mediante la marca `synchronized` en estos métodos,
 ### Modo de Uso
 1. Se compila el archivo mediante el uso de makefile 
    ```bash
-      makeall
+      make all
 2. Para ejecutar los casos de prueba llamados pN.txt (donde 0<N<5) de hace uso del siguiente comando, cambiando p1.txt por el archivo que se desee probar:
    ```bash
-      java Principal "Casos de Prueba\p1.txt"
+      java Principal "Casos de Prueba/p1.txt"
+3. Para limpiar los archivos .class generado por la compilacion se usa:
+   ```bash
+      make clean
 
 ### Referencias Consultadas
 
